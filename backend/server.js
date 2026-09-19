@@ -1,4 +1,7 @@
+import 'dotenv/config'
 import express from 'express'
+import mongoose from 'mongoose'
+import Product from './models/Product.js'
 
 const app = express()
 
@@ -31,6 +34,12 @@ app.get('/api/products/:id', (req, res) => {
 app.get('/api/test', (req, res) => {
   res.send('nodemon auto-restart works')
 })
+
+
+
+mongoose.connect(process.env.MONGO_URI)
+  .then(() => console.log('MongoDB connected'))
+  .catch((err) => console.log('MongoDB connection error:', err.message))
 
 app.listen(5000,()=>{
     console.log("Server is running on port 5000")
