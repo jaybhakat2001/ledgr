@@ -2,9 +2,10 @@ import 'dotenv/config'
 import express from 'express'
 import mongoose from 'mongoose'
 import Product from './models/Product.js'
+import cors from 'cors'
 
 const app = express()
-
+app.use(cors())
 app.use(express.json())
 
 app.post('/api/products', async (req, res) => {
@@ -37,7 +38,7 @@ app.get('/api/test', (req, res) => {
 
 
 app.patch('/api/products/:id', async(req,res)=>{
-  const product = await Product.findByIdAndUpdate(req.params.id, req.body, { new: true })
+  const product = await Product.findByIdAndUpdate(req.params.id, req.body, { returnDocument: 'after' })
   if (!product) {
     return res.status(404).json({ message: 'Product not found' })
   }
